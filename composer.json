@@ -1,0 +1,18 @@
+{
+    "require": {
+        "pimple/pimple": "^3.3",
+        "predis/predis": "^1.1",
+        "ramsey/uuid": "^4.0",
+        "slim/psr7": "^1.0",
+        "slim/slim": "^4.5",
+        "vlucas/phpdotenv": "^4.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "NookPlus\\": "src/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
