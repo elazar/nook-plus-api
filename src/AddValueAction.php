@@ -2,10 +2,10 @@
 
 namespace NookPlus;
 
+use Fig\Http\Message\StatusCodeInterface as Status;
 use Predis\Client;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Fig\Http\Message\StatusCodeInterface as Status;
 
 class AddValueAction
 {

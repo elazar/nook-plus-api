@@ -2,10 +2,10 @@
 
 namespace NookPlus;
 
+use Fig\Http\Message\StatusCodeInterface as Status;
 use Predis\Client;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Fig\Http\Message\StatusCodeInterface as Status;
 
 class GetUserAction
 {
@@ -26,7 +26,6 @@ class GetUserAction
             return $response->withStatus(Status::STATUS_NOT_FOUND);
         }
 
-        $response = $response->withStatus(Status::STATUS_OK);
         $response->getBody()->write(json_encode($this->data->getValues($id)));
         return $response;
     }
