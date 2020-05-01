@@ -2,6 +2,7 @@
 
 namespace NookPlus;
 
+use Predis\Client;
 use Ramsey\Uuid\Uuid;
 
 class Data
