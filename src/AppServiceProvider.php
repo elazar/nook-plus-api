@@ -8,16 +8,34 @@ use Pimple\Container;
 use Pimple\Psr11\Container as PsrContainer;
 use Pimple\ServiceProviderInterface;
 use Predis\Client;
+use Psr\Http\Message\ResponseFactoryInterface;
+use Psr\Http\Message\ServerRequestFactoryInterface;
+use Psr\Http\Message\StreamFactoryInterface;
+use Psr\Http\Message\UriFactoryInterface;
 use Slim\App;
 use Slim\Factory\AppFactory;
 use Slim\Interfaces\CallableResolverInterface;
+use Slim\Psr7\Factory\ResponseFactory;
+use Slim\Psr7\Factory\ServerRequestFactory;
+use Slim\Psr7\Factory\StreamFactory;
+use Slim\Psr7\Factory\UriFactory;
 
 class AppServiceProvider implements ServiceProviderInterface
 {
     public function register(Container $container)
     {
         // Slim
+        $container[UriFactoryInterface::class] = fn($c) => new UriFactory;
+        $container[StreamFactoryInterface::class] = fn($c) => new StreamFactory;
+        $container[ResponseFactoryInterface::class] = fn($c) => new ResponseFactory;
+        $container[ServerRequestFactoryInterface::class] = fn($c) => new ServerRequestFactory(
+            $c[StreamFactoryInterface::class],
+            $c[UriFactoryInterface::class]
+        );
         $container[CallableResolverInterface::class] = fn($c) => new ActionResolver($c);
+        $container[RouteNotFoundMiddleware::class] = fn($c) => new RouteNotFoundMiddleware(
+            $c[ResponseFactoryInterface::class]
+        );
         $container[App::class] = fn($c) => $this->getApp($c);
 
         // Configuration
@@ -41,6 +59,7 @@ class AppServiceProvider implements ServiceProviderInterface
     private function getApp(Container $container)
     {
         $app = AppFactory::createFromContainer(new PsrContainer($container));
+        $app->add($container[RouteNotFoundMiddleware::class]);
 
         $app->post('/users', CreateUserAction::class);
         $app->get('/users/:id', GetUserAction::class);
