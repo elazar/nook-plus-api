@@ -38,7 +38,7 @@ class AppServiceProvider implements ServiceProviderInterface
             $c[ResponseFactoryInterface::class]
         );
         $container[CorsMiddleware::class] = fn($c) => new CorsMiddleware([
-            'origin' => ['', 'https://matthewturland.com'],
+            'origin' => ['', 'null', 'https://matthewturland.com'],
         ]);
         $container[App::class] = fn($c) => $this->getApp($c);
 
