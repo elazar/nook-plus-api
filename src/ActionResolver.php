@@ -22,6 +22,6 @@ class ActionResolver implements CallableResolverInterface
      */
     public function resolve($toResolve): callable
     {
-        return $this->container[$toResolve];
+        return is_callable($toResolve) ? $toResolve : $this->container[$toResolve];
     }
 }

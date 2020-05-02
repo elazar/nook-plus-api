@@ -19,7 +19,6 @@ use Slim\Psr7\Factory\ResponseFactory;
 use Slim\Psr7\Factory\ServerRequestFactory;
 use Slim\Psr7\Factory\StreamFactory;
 use Slim\Psr7\Factory\UriFactory;
-use Tuupola\Middleware\CorsMiddleware;
 
 class AppServiceProvider implements ServiceProviderInterface
 {
@@ -37,9 +36,6 @@ class AppServiceProvider implements ServiceProviderInterface
         $container[RouteNotFoundMiddleware::class] = fn($c) => new RouteNotFoundMiddleware(
             $c[ResponseFactoryInterface::class]
         );
-        $container[CorsMiddleware::class] = fn($c) => new CorsMiddleware([
-            'origin' => ['http://127.0.0.1:8080', 'https://matthewturland.com'],
-        ]);
         $container[App::class] = fn($c) => $this->getApp($c);
 
         // Configuration
@@ -64,8 +60,18 @@ class AppServiceProvider implements ServiceProviderInterface
     {
         $app = AppFactory::createFromContainer(new PsrContainer($container));
         $app->add($container[RouteNotFoundMiddleware::class]);
-        $app->add($container[CorsMiddleware::class]);
 
+        // CORS
+        $app->add(function ($request, $handler) {
+            $response = $handler->handle($request);
+            return $response
+                ->withHeader('Access-Control-Allow-Origin', 'https://matthewturland.com')
+                ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
+                ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
+        });
+        $app->options('/{routes:.+}', fn($request, $response, $args) => $response);
+
+        // Routes
         $app->post('/users', CreateUserAction::class);
         $app->get('/users/:id', GetUserAction::class);
         $app->post('/users/:id/:key', AddValuesAction::class);

@@ -5,7 +5,6 @@
         "ramsey/uuid": "^4.0",
         "slim/psr7": "^1.0",
         "slim/slim": "^4.5",
-        "tuupola/cors-middleware": "^1.1",
         "vlucas/phpdotenv": "^4.1"
     },
     "autoload": {
