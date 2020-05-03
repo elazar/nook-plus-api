@@ -77,10 +77,10 @@ class AppServiceProvider implements ServiceProviderInterface
 
         // Routes
         $app->post('/users', CreateUserAction::class);
-        $app->get('/users/:id', GetUserAction::class);
-        $app->post('/users/:id/:key', AddValuesAction::class);
-        $app->put('/users/:id/:key/:value', AddValueAction::class);
-        $app->delete('/users/:id/:key/:value', RemoveValueAction::class);
+        $app->get('/users/{id}', GetUserAction::class);
+        $app->post('/users/{id}/{key}', AddValuesAction::class);
+        $app->put('/users/{id}/{key}/{value}', AddValueAction::class);
+        $app->delete('/users/{id}/{key}/{value}', RemoveValueAction::class);
 
         return $app;
     }
