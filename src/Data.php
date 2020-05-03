@@ -62,7 +62,7 @@ class Data
         return in_array($key, $this->keys);
     }
 
-    public function getValues(string $uuid, string $value)
+    public function getValues(string $uuid, string $key)
     {
         return $this->client->smembers($this->getKey($uuid, $key));
     }
