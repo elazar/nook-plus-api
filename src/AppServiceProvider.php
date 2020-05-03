@@ -51,7 +51,7 @@ class AppServiceProvider implements ServiceProviderInterface
         // Actions
         $container[CreateUserAction::class] = fn($c) => new CreateUserAction($c[Data::class]);
         $container[GetUserAction::class] = fn($c) => new GetUserAction($c[Data::class]);
-        $container[AddValuesActions::class] = fn($c) => new AddValuesAction($c[Data::class]);
+        $container[AddValuesAction::class] = fn($c) => new AddValuesAction($c[Data::class]);
         $container[AddValueAction::class] = fn($c) => new AddValueAction($c[Data::class]);
         $container[RemoveValueAction::class] = fn($c) => new RemoveValueAction($c[Data::class]);
     }
