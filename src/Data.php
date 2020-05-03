@@ -69,7 +69,9 @@ class Data
 
     public function addValues(string $uuid, string $key, $values): void
     {
-        $this->client->sadd($this->getKey($uuid, $key), (array) $values);
+        if ($values) {
+            $this->client->sadd($this->getKey($uuid, $key), (array) $values);
+        }
     }
 
     public function removeValue(string $uuid, string $key, string $value): void
