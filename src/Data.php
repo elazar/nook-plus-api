@@ -62,6 +62,11 @@ class Data
         return in_array($key, $this->keys);
     }
 
+    public function getValues(string $uuid, string $value)
+    {
+        return $this->client->smembers($this->getKey($uuid, $key));
+    }
+
     public function addValues(string $uuid, string $key, $values): void
     {
         $this->client->sadd($this->getKey($uuid, $key), ...((array) $values));
@@ -72,7 +77,7 @@ class Data
         $this->client->srem($this->getKey($uuid, $key), $value);
     }
 
-    public function getValues(string $uuid): array
+    public function getUser(string $uuid): array
     {
         $keys = array_map(fn($key) => $this->getKey($uuid, $key), $this->keys);
         $values = [];

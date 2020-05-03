@@ -78,6 +78,7 @@ class AppServiceProvider implements ServiceProviderInterface
         // Routes
         $app->post('/users', CreateUserAction::class);
         $app->get('/users/{id}', GetUserAction::class);
+        $app->get('/users/{id}/{key}', GetValuesAction::class);
         $app->post('/users/{id}/{key}', AddValuesAction::class);
         $app->put('/users/{id}/{key}/{value}', AddValueAction::class);
         $app->delete('/users/{id}/{key}/{value}', RemoveValueAction::class);
