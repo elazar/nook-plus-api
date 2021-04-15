@@ -27,6 +27,7 @@ class Data
         'songs-owned',
         'villagers-favorites',
         'villagers-residents',
+        'villagers-photos',
     ];
 
     const USERS = 'users';
