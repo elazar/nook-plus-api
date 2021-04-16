@@ -22,6 +22,7 @@ class Data
         'critters-donated',
         'fossils-donated',
         'furniture-need',
+        'plants-quantity',
         'recipes-need',
         'settings',
         'songs-owned',
