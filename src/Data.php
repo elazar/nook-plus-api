@@ -20,6 +20,7 @@ class Data
         'crafting-need',
         'critters-caught',
         'critters-donated',
+        'critters-made',
         'fossils-donated',
         'furniture-need',
         'plants-quantity',
