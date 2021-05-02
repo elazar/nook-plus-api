@@ -19,6 +19,7 @@ use Slim\Psr7\Factory\ResponseFactory;
 use Slim\Psr7\Factory\ServerRequestFactory;
 use Slim\Psr7\Factory\StreamFactory;
 use Slim\Psr7\Factory\UriFactory;
+use Slim\Routing\RouteCollectorProxy;
 
 class AppServiceProvider implements ServiceProviderInterface
 {
@@ -65,7 +66,7 @@ class AppServiceProvider implements ServiceProviderInterface
         // CORS
         $app->add(function ($request, $handler) {
             $response = $handler->handle($request);
-            $origin = 'https://matthewturland.com';
+            $origin = 'https://nook-plus.matthewturland.com';
             if ($request->getHeaderLine('Origin') === 'http://localhost:8080') {
                 $origin = 'http://localhost:8080';
             }
@@ -77,12 +78,14 @@ class AppServiceProvider implements ServiceProviderInterface
         $app->options('/{routes:.+}', fn($request, $response, $args) => $response);
 
         // Routes
-        $app->post('/users', CreateUserAction::class);
-        $app->get('/users/{id}', GetUserAction::class);
-        $app->get('/users/{id}/{key}', GetValuesAction::class);
-        $app->post('/users/{id}/{key}', AddValuesAction::class);
-        $app->put('/users/{id}/{key}/{value}', AddValueAction::class);
-        $app->delete('/users/{id}/{key}/{value}', RemoveValueAction::class);
+        $app->group('/api', function (RouteCollectorProxy $app) {
+            $app->post('/users', CreateUserAction::class);
+            $app->get('/users/{id}', GetUserAction::class);
+            $app->get('/users/{id}/{key}', GetValuesAction::class);
+            $app->post('/users/{id}/{key}', AddValuesAction::class);
+            $app->put('/users/{id}/{key}/{value}', AddValueAction::class);
+            $app->delete('/users/{id}/{key}/{value}', RemoveValueAction::class);
+        });
 
         return $app;
     }
