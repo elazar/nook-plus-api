@@ -66,9 +66,12 @@ class AppServiceProvider implements ServiceProviderInterface
         // CORS
         $app->add(function ($request, $handler) {
             $response = $handler->handle($request);
-            $origin = 'https://nook-plus.matthewturland.com';
             if ($request->getHeaderLine('Origin') === 'http://localhost:8080') {
                 $origin = 'http://localhost:8080';
+            } elseif ($request->getHeaderLine('Origin') === 'https://matthewturland.com') {
+                $origin = 'https://matthewturland.com';
+            } else {
+                $origin = 'https://nook-plus.matthewturland.com';
             }
             return $response
                 ->withHeader('Access-Control-Allow-Origin', $origin)
